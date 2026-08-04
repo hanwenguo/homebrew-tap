@@ -67,6 +67,15 @@ jobs:
         if: github.event_name == 'pull_request' || inputs.pull_request != ''
         run: brew test-bot --only-formulae --fail-fast
 
+      - name: Reject skipped or failed formula builds
+        if: github.event_name == 'pull_request' || inputs.pull_request != ''
+        run: |
+          if grep -q '[^[:space:]]' skipped_or_failed_formulae-*.txt; then
+            echo "Formulae skipped or failed during source builds:"
+            cat skipped_or_failed_formulae-*.txt
+            exit 1
+          fi
+
       - name: Upload bottles as artifact
         if: always() && (github.event_name == 'pull_request' || inputs.pull_request != '')
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

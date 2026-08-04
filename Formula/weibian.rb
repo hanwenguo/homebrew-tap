@@ -17,6 +17,11 @@ class Weibian < Formula
     depends_on arch: :arm64
   end
 
+  on_linux do
+    depends_on "pkgconf" => :build
+    depends_on "openssl@3"
+  end
+
   def install
     system "cargo", "install", *std_cargo_args
   end

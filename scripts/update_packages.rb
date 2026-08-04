@@ -83,17 +83,19 @@ module TapUpdater
     content.sub!(pattern) { "#{Regexp.last_match(1)}#{value.dump}" }
   end
 
-  def update_file(relative_path, version:, sha256:, url:, formula: false)
+  def update_file(relative_path, version:, sha256:, url:, formula: false, update_url: true)
     path = File.join(ROOT, relative_path)
     content = File.read(path)
+    previous_url = content[/^\s*url\s+"([^"]+)"/, 1]
     previous_version = content[/^\s*version\s+"([^"]+)"/, 1]
-    raise "#{relative_path} has no version stanza" unless previous_version
+    raise "#{relative_path} has no URL stanza" unless previous_url
+    raise "#{relative_path} has no version stanza" if !formula && !previous_version
 
-    replace_stanza!(content, "version", version)
+    replace_stanza!(content, "version", version) unless formula
     replace_stanza!(content, "sha256", sha256)
-    replace_stanza!(content, "url", url)
+    replace_stanza!(content, "url", url) if update_url
 
-    content.sub!(/\n  bottle do\n.*?^  end\n/m, "\n") if formula && previous_version != version
+    content.sub!(/\n  bottle do\n.*?^  end\n/m, "\n") if formula && previous_url != url
 
     File.write(path, content) if content != File.read(path)
   end
@@ -116,9 +118,10 @@ module TapUpdater
     version = tag.delete_prefix("v")
     asset = release_asset(release, asset_name_for.call(version))
     update_file(relative_path,
-                version: version,
-                sha256:  asset_sha256(asset),
-                url:     asset.fetch("browser_download_url"))
+                version:    version,
+                sha256:     asset_sha256(asset),
+                url:        asset.fetch("browser_download_url"),
+                update_url: false)
   end
 
   def update_emacs_cask(relative_path, release_list, tag_pattern, asset_name)
@@ -127,9 +130,10 @@ module TapUpdater
     asset = release_asset(release, asset_name)
     version = "#{release_timestamp(release)},#{release.fetch("tag_name")}"
     update_file(relative_path,
-                version: version,
-                sha256:  asset_sha256(asset),
-                url:     asset.fetch("browser_download_url"))
+                version:    version,
+                sha256:     asset_sha256(asset),
+                url:        asset.fetch("browser_download_url"),
+                update_url: false)
   end
 
   def run

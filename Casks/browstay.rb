@@ -2,7 +2,7 @@ cask "browstay" do
   version "0.1.1"
   sha256 "13390cbadb767f1eab4fd2e7274c69daf398dcbe381674e3ec1fd218b903db76"
 
-  url "https://github.com/hanwenguo/Stayfari/releases/download/v0.1.1/Browstay-0.1.1.zip",
+  url "https://github.com/hanwenguo/Stayfari/releases/download/v#{version}/Browstay-#{version}.zip",
       verified: "github.com/hanwenguo/Stayfari/"
   name "Browstay"
   desc "Routes external links to a browser on the current Desktop"

@@ -2,7 +2,7 @@ cask "emacs-ns-static-master" do
   version "20260804013350,master-602cde3"
   sha256 "b0d7f392fd57c13bc86b1f227e46e49a54d67184fdd754232aface2761b98660"
 
-  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/master-602cde3/Emacs-master.tar.xz",
+  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-master.tar.xz",
       verified: "github.com/hanwenguo/emacs-ns-static-build/"
   name "Emacs NS Static (Master)"
   desc "Daily static Emacs master build for Apple Silicon"

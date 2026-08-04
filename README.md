@@ -31,8 +31,13 @@ Alternatively, tap the repository once and use short package names:
 
 ```sh
 brew tap hanwenguo/tap
+brew trust --tap hanwenguo/tap
 brew install lantai
 ```
+
+Whole-tap trust allows Homebrew to load every current and future package in the
+tap. Prefer the fully qualified commands above when you only want to trust one
+specific formula or cask.
 
 ## Packages
 

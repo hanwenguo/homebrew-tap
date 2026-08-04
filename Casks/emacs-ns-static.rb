@@ -2,7 +2,7 @@ cask "emacs-ns-static" do
   version "20260803142410,emacs-31-afda8c2"
   sha256 "f349d83c8d07364fff83fa5f0934f8fb501ca8fa77bf6f33e8132e41d9335cc9"
 
-  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/emacs-31-afda8c2/Emacs.tar.xz",
+  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs.tar.xz",
       verified: "github.com/hanwenguo/emacs-ns-static-build/"
   name "Emacs NS Static (Emacs 31)"
   desc "Daily static Emacs 31 build for Apple Silicon"

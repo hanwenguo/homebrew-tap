@@ -1,34 +1,28 @@
 class Weibian < Formula
   desc "Typst document compiler and site builder"
   homepage "https://github.com/hanwenguo/weibian"
-  version "2.0.0-rc.4"
+  version "2.0.0-rc.5"
   license "GPL-3.0-only"
-
-  bottle do
-    root_url "https://github.com/hanwenguo/homebrew-tap/releases/download/weibian-2.0.0-rc.4"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "20ee76ae8ca57b872374c6c3bd79ea43b320f1e0456d2679727325287f62791a"
-    sha256 cellar: :any_skip_relocation, sequoia:       "8b3e8924fd284df932cf49009e1e95bccffcdbc2c03de3f6f19eeea68b906ffc"
-  end
 
   on_macos do
     on_arm do
-      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.4/wb-aarch64-apple-darwin.tar.gz"
-      sha256 "fbc998a847d8cde4bde82f0ba3aec35fef643df58dae249685e7f97d3f19c643"
+      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.5/wb-aarch64-apple-darwin.tar.gz"
+      sha256 "01cb8a54a2d839a7960a324ee412e9f9be649acbe2db6ae87130749df1063fe3"
     end
     on_intel do
-      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.4/wb-x86_64-apple-darwin.tar.gz"
-      sha256 "1eea4d625a4efae0e52f94ae706bcdbd1cdc3b3c37b72a202e7aaa3da441c763"
+      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.5/wb-x86_64-apple-darwin.tar.gz"
+      sha256 "9134594b660f7e94bad1988e9381c6eb07861f237d1e4c0bee8f8fa821758a55"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.4/wb-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "865854286bd55d44ee5f6efe9388adb015b4b84ce0182ff5a437cbcb6014604d"
+      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.5/wb-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "0c3341f282905c86f28e34228aedadee12869a1c56da4d8c56483897562335e8"
     end
     on_intel do
-      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.4/wb-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "c13b5f19093dc9f101d47ad41bd67c4778c4980f96985bb10a70bf0f0eaf2dc4"
+      url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.5/wb-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "10e09f93b6f44b3abf60b26ec044da4e7843dc0083aa6071f52ae5ae48232f85"
     end
   end
 

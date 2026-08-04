@@ -13,19 +13,19 @@ brew install --cask hanwenguo/tap/font-akvesoi
 ```
 
 The macOS app builds are ad-hoc signed and are not notarized by Apple. Install
-them with `--no-quarantine` only after deciding that you trust the corresponding
-GitHub release:
+them only after deciding that you trust the corresponding GitHub release:
 
 ```sh
-brew install --cask --no-quarantine hanwenguo/tap/browstay
-brew install --cask --no-quarantine hanwenguo/tap/emacs-ns-static
-brew install --cask --no-quarantine hanwenguo/tap/emacs-ns-static-master
-brew install --cask --no-quarantine hanwenguo/tap/emacs-ns-static-igc
+brew install --cask hanwenguo/tap/browstay
+brew install --cask hanwenguo/tap/emacs-ns-static
+brew install --cask hanwenguo/tap/emacs-ns-static-master
+brew install --cask hanwenguo/tap/emacs-ns-static-igc
 ```
 
 Homebrew verifies every downloaded archive against the SHA-256 checksum in this
-tap. `--no-quarantine` bypasses Apple's Gatekeeper quarantine check; it does not
-disable Homebrew's checksum verification.
+tap. Homebrew 6 no longer supports `--no-quarantine`. If Gatekeeper blocks the
+first launch, approve the app explicitly in System Settings > Privacy & Security.
+The tap does not remove quarantine automatically.
 
 Alternatively, tap the repository once and use short package names:
 

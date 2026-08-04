@@ -23,13 +23,14 @@ cask "browstay" do
   ]
 
   caveats <<~EOS
-    Browstay is ad-hoc signed and is not notarized by Apple. To make the trust
-    decision explicitly at install time, use:
+    Browstay is ad-hoc signed and is not notarized by Apple. Install it only
+    after deciding to trust the upstream release:
 
-      brew install --cask --no-quarantine hanwenguo/tap/browstay
+      brew install --cask hanwenguo/tap/browstay
 
-    A normal quarantined install may require approval in System Settings >
-    Privacy & Security. macOS may ask for Automation permission again after an
-    upgrade because an ad-hoc signature is not a persistent developer identity.
+    If Gatekeeper blocks the first launch, approve Browstay explicitly in System
+    Settings > Privacy & Security. macOS may ask for Automation permission again
+    after an upgrade because an ad-hoc signature is not a persistent developer
+    identity.
   EOS
 end

@@ -1,6 +1,6 @@
 cask "emacs-ns-static" do
-  version "20260803142410,emacs-31-afda8c2"
-  sha256 "f349d83c8d07364fff83fa5f0934f8fb501ca8fa77bf6f33e8132e41d9335cc9"
+  version "20260804191033,emacs-31-8b521b9"
+  sha256 "0bcc79e621da09019555d464729d62b88ce038a8e0737dd5da65478b9e825fd8"
 
   url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs.tar.xz",
       verified: "github.com/hanwenguo/emacs-ns-static-build/"
@@ -33,6 +33,9 @@ cask "emacs-ns-static" do
     This Emacs build is ad-hoc signed and is not notarized by Apple. Install it
     only after deciding to trust the upstream release:
 
-      brew install --cask --no-quarantine hanwenguo/tap/emacs-ns-static
+      brew install --cask hanwenguo/tap/emacs-ns-static
+
+    If Gatekeeper blocks the first launch, approve Emacs explicitly in System
+    Settings > Privacy & Security.
   EOS
 end

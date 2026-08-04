@@ -33,6 +33,9 @@ cask "emacs-ns-static-igc" do
     This Emacs build is ad-hoc signed and is not notarized by Apple. Install it
     only after deciding to trust the upstream release:
 
-      brew install --cask --no-quarantine hanwenguo/tap/emacs-ns-static-igc
+      brew install --cask hanwenguo/tap/emacs-ns-static-igc
+
+    If Gatekeeper blocks the first launch, approve Emacs explicitly in System
+    Settings > Privacy & Security.
   EOS
 end

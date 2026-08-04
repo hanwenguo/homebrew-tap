@@ -4,6 +4,7 @@ class Lantai < Formula
   url "https://github.com/hanwenguo/lantai/archive/refs/tags/v0.5.0.tar.gz"
   sha256 "13510c59f9160261c8884416ea3f5bcb9e69b4cdcf4f4095ccd6cc156e98384d"
   license "AGPL-3.0-only"
+  revision 1
 
   depends_on "rust" => :build
 

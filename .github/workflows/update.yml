@@ -34,10 +34,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          exec 3>>"$GITHUB_OUTPUT"
           if git diff --quiet -- Formula Casks
           then
             echo "No package updates found."
-            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "changed=false" >&3
             exit 0
           fi
 
@@ -67,9 +68,9 @@ jobs:
           fi
 
           head_sha="$(git rev-parse HEAD)"
-          echo "changed=true" >> "$GITHUB_OUTPUT"
-          echo "head_sha=$head_sha" >> "$GITHUB_OUTPUT"
-          echo "pull_request=$pull_request" >> "$GITHUB_OUTPUT"
+          echo "changed=true" >&3
+          echo "head_sha=$head_sha" >&3
+          echo "pull_request=$pull_request" >&3
 
       - name: Test the exact update commit
         if: steps.pull-request.outputs.changed == 'true'

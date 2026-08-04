@@ -1,0 +1,93 @@
+name: brew test-bot
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      pull_request:
+        description: Pull request number for an automated update
+      head_sha:
+        description: Expected pull request head commit SHA
+
+concurrency:
+  group: tap-tests-${{ github.event.pull_request.number || inputs.pull_request || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: write
+  checks: read
+  contents: read
+  pull-requests: read
+
+jobs:
+  test-bot:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS 15 ARM64
+            os: macos-15
+          - name: macOS 15 Intel
+            os: macos-15-intel
+          - name: Linux ARM64
+            os: ubuntu-24.04-arm
+            container:
+              image: ghcr.io/homebrew/brew:main
+              options: --privileged
+          - name: Linux x86-64
+            os: ubuntu-24.04
+            container:
+              image: ghcr.io/homebrew/brew:main
+              options: --privileged
+    runs-on: ${{ matrix.os }}
+    container: ${{ fromJSON(toJSON(matrix.container)) }}
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@df4b09108a1de9d6f995fe68f302b3f68bd6d2ef
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
+
+      - run: brew test-bot --only-cleanup-before
+
+      - run: brew test-bot --only-setup
+
+      - run: brew test-bot --only-tap-syntax
+
+      - name: Build changed formulae and test changed casks
+        if: github.event_name == 'pull_request' || inputs.pull_request != ''
+        run: brew test-bot --only-formulae
+
+      - name: Upload bottles as artifact
+        if: always() && (github.event_name == 'pull_request' || inputs.pull_request != '')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: bottles_${{ matrix.os }}
+          path: "*.bottle.*"
+
+  publish-automated-update:
+    name: Publish automated update
+    if: github.event_name == 'workflow_dispatch' && inputs.pull_request != '' && inputs.head_sha != ''
+    needs: test-bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch head-SHA-verified brew pr-pull
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ inputs.head_sha }}
+          PULL_REQUEST: ${{ inputs.pull_request }}
+        run: >-
+          gh workflow run publish.yml --ref main
+          --field pull_request="$PULL_REQUEST"
+          --field head_sha="$HEAD_SHA"

@@ -1,0 +1,83 @@
+name: Check package updates
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: package-updater
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the tap
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          fetch-depth: 0
+
+      - name: Update versions and checksums
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ruby scripts/update_packages.rb
+
+      - name: Create or refresh update pull request
+        id: pull-request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- Formula Casks
+          then
+            echo "No package updates found."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          branch="automation/package-updates"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null
+          then
+            git fetch origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+          fi
+
+          git switch -c "$branch"
+          git add Formula Casks
+          git commit -m "chore: update Homebrew packages"
+          git push --force-with-lease origin "HEAD:$branch"
+
+          pull_request="$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')"
+          if [[ -z "$pull_request" ]]
+          then
+            gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "chore: update Homebrew packages" \
+              --body "Automated upstream release update. The exact head commit is tested on all supported formula bottle platforms before publication."
+            pull_request="$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')"
+          fi
+
+          head_sha="$(git rev-parse HEAD)"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$head_sha" >> "$GITHUB_OUTPUT"
+          echo "pull_request=$pull_request" >> "$GITHUB_OUTPUT"
+
+      - name: Test the exact update commit
+        if: steps.pull-request.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ steps.pull-request.outputs.head_sha }}
+          PULL_REQUEST: ${{ steps.pull-request.outputs.pull_request }}
+        run: >-
+          gh workflow run tests.yml --ref automation/package-updates
+          --field pull_request="$PULL_REQUEST"
+          --field head_sha="$HEAD_SHA"

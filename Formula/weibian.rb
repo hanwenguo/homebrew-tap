@@ -4,6 +4,12 @@ class Weibian < Formula
   version "2.0.0-rc.4"
   license "GPL-3.0-only"
 
+  bottle do
+    root_url "https://github.com/hanwenguo/homebrew-tap/releases/download/weibian-2.0.0-rc.4"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "20ee76ae8ca57b872374c6c3bd79ea43b320f1e0456d2679727325287f62791a"
+    sha256 cellar: :any_skip_relocation, sequoia:       "8b3e8924fd284df932cf49009e1e95bccffcdbc2c03de3f6f19eeea68b906ffc"
+  end
+
   on_macos do
     on_arm do
       url "https://github.com/hanwenguo/weibian/releases/download/v2.0.0-rc.4/wb-aarch64-apple-darwin.tar.gz"

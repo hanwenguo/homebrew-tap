@@ -76,58 +76,43 @@ module TapUpdater
   end
 
   def replace_stanza!(content, stanza, value)
-    pattern = /^(\s*#{Regexp.escape(stanza)}\s+)"[^"]+"/
+    pattern = /^(  #{Regexp.escape(stanza)}\s+)"[^"]+"/
     matches = content.scan(pattern).length
     raise "expected one #{stanza} stanza, found #{matches}" if matches != 1
 
     content.sub!(pattern) { "#{Regexp.last_match(1)}#{value.dump}" }
   end
 
-  def replace_binary_asset!(content, target, url, sha256)
-    pattern = /^(\s*url\s+)"[^"]*#{Regexp.escape(target)}\.tar\.gz"\n(\s*sha256\s+)"[^"]+"/
-    matches = content.scan(pattern).length
-    raise "expected one #{target} binary asset, found #{matches}" if matches != 1
-
-    content.sub!(pattern) do
-      "#{Regexp.last_match(1)}#{url.dump}\n#{Regexp.last_match(2)}#{sha256.dump}"
-    end
-  end
-
-  def update_file(relative_path, version:, sha256:, url:, update_url: true)
+  def update_file(relative_path, version:, sha256:, url:, formula: false, update_url: true)
     path = File.join(ROOT, relative_path)
     content = File.read(path)
-    previous_version = content[/^\s*version\s+"([^"]+)"/, 1]
-    raise "#{relative_path} has no version stanza" unless previous_version
+    previous_url = content[/^  url\s+"([^"]+)"/, 1]
+    previous_version = content[/^  version\s+"([^"]+)"/, 1]
+    raise "#{relative_path} has no URL stanza" unless previous_url
+    raise "#{relative_path} has no version stanza" if !formula && !previous_version
 
-    replace_stanza!(content, "version", version)
+    replace_stanza!(content, "version", version) unless formula
     replace_stanza!(content, "sha256", sha256)
     replace_stanza!(content, "url", url) if update_url
 
+    if formula && previous_url != url
+      content.sub!(/\n  bottle do\n.*?^  end\n/m, "\n")
+      content.sub!(/^  revision\s+\d+\n/, "")
+    end
+
     File.write(path, content) if content != File.read(path)
   end
 
-  def update_binary_formula(relative_path, repository, explicit_version:, asset_name_for:)
+  def update_formula(relative_path, repository)
     release = latest_release(repository, /\Av\d/)
     tag = release.fetch("tag_name")
     version = tag.delete_prefix("v")
-    path = File.join(ROOT, relative_path)
-    content = File.read(path)
-    previous_tag = content[%r{/releases/download/(v[^/]+)/}, 1] ||
-                   raise("#{relative_path} has no release tag in its URLs")
-
-    replace_stanza!(content, "version", version) if explicit_version
-    %w[
-      aarch64-apple-darwin
-      x86_64-apple-darwin
-      aarch64-unknown-linux-gnu
-      x86_64-unknown-linux-gnu
-    ].each do |target|
-      asset = release_asset(release, asset_name_for.call(version, target))
-      replace_binary_asset!(content, target, asset.fetch("browser_download_url"), asset_sha256(asset))
-    end
-
-    content.sub!(/\n  bottle do\n.*?^  end\n/m, "\n") if previous_tag != tag
-    File.write(path, content) if content != File.read(path)
+    url = "https://github.com/#{repository}/archive/refs/tags/#{tag}.tar.gz"
+    update_file(relative_path,
+                version: version,
+                sha256:  download_sha256(url),
+                url:     url,
+                formula: true)
   end
 
   def update_asset_cask(relative_path, repository, asset_name_for:)
@@ -155,14 +140,8 @@ module TapUpdater
   end
 
   def run
-    update_binary_formula(
-      "Formula/lantai.rb", "hanwenguo/lantai", explicit_version: false,
-                                               asset_name_for:   ->(version, target) { "lantai-#{version}-#{target}.tar.gz" }
-    )
-    update_binary_formula(
-      "Formula/weibian.rb", "hanwenguo/weibian", explicit_version: true,
-                                                 asset_name_for:   ->(_version, target) { "wb-#{target}.tar.gz" }
-    )
+    update_formula("Formula/lantai.rb", "hanwenguo/lantai")
+    update_formula("Formula/weibian.rb", "hanwenguo/weibian")
 
     update_asset_cask("Casks/font-akvesoi.rb", "hanwenguo/Akvesoi",
                       asset_name_for: ->(version) { "PkgTTC-Akvesoi-#{version}.zip" })

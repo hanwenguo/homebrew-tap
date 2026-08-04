@@ -106,7 +106,16 @@ jobs:
               token="${path##*/}"
               token="${token%.rb}"
               brew audit --cask --strict "hanwenguo/tap/$token"
-              brew install --cask --no-quarantine "hanwenguo/tap/$token"
+              brew install --cask "hanwenguo/tap/$token"
+              case "$token" in
+                browstay)
+                  codesign --verify --deep --strict /Applications/Browstay.app
+                  ;;
+                emacs-ns-static*)
+                  codesign --verify --deep --strict /Applications/Emacs.app
+                  codesign --verify --deep --strict '/Applications/Emacs Client.app'
+                  ;;
+              esac
               brew uninstall --cask "$token"
             done
 

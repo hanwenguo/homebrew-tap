@@ -63,12 +63,57 @@ jobs:
 
       - run: brew test-bot --only-tap-syntax
 
-      - name: Build changed formulae and test changed casks
+      - name: Detect changed package types
+        id: changes
         if: github.event_name == 'pull_request' || inputs.pull_request != ''
+        env:
+          BASE_REF: ${{ github.base_ref || 'main' }}
+        run: |
+          tap_path="$(brew --repo "$GITHUB_REPOSITORY")"
+          git -C "$tap_path" fetch --no-tags origin "$BASE_REF"
+          comparison="origin/$BASE_REF...HEAD"
+
+          if git -C "$tap_path" diff --quiet "$comparison" -- Formula; then
+            echo "formulae=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "formulae=true" >> "$GITHUB_OUTPUT"
+          fi
+
+          if git -C "$tap_path" diff --quiet "$comparison" -- Casks; then
+            echo "casks=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "casks=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build changed formulae
+        if: >-
+          (github.event_name == 'pull_request' || inputs.pull_request != '') &&
+          steps.changes.outputs.formulae == 'true'
         run: brew test-bot --only-formulae --fail-fast
 
+      - name: Install and uninstall changed casks
+        if: >-
+          (github.event_name == 'pull_request' || inputs.pull_request != '') &&
+          matrix.os == 'macos-26' &&
+          steps.changes.outputs.casks == 'true'
+        env:
+          BASE_REF: ${{ github.base_ref || 'main' }}
+        run: |
+          set -euo pipefail
+          tap_path="$(brew --repo "$GITHUB_REPOSITORY")"
+          git -C "$tap_path" diff --name-only "origin/$BASE_REF...HEAD" -- 'Casks/*.rb' |
+            while IFS= read -r path; do
+              token="${path##*/}"
+              token="${token%.rb}"
+              brew audit --cask --strict "hanwenguo/tap/$token"
+              brew install --cask --no-quarantine "hanwenguo/tap/$token"
+              brew uninstall --cask "$token"
+            done
+
       - name: Reject skipped or failed formula builds
-        if: github.event_name == 'pull_request' || inputs.pull_request != ''
+        if: >-
+          (github.event_name == 'pull_request' || inputs.pull_request != '') &&
+          steps.changes.outputs.formulae == 'true'
         run: |
           if grep -q '[^[:space:]]' skipped_or_failed_formulae-*.txt; then
             echo "Formulae skipped or failed during source builds:"
@@ -77,7 +122,10 @@ jobs:
           fi
 
       - name: Upload bottles as artifact
-        if: always() && (github.event_name == 'pull_request' || inputs.pull_request != '')
+        if: >-
+          always() &&
+          (github.event_name == 'pull_request' || inputs.pull_request != '') &&
+          steps.changes.outputs.formulae == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: bottles_${{ matrix.os }}

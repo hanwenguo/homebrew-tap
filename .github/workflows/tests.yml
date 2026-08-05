@@ -31,6 +31,8 @@ jobs:
         include:
           - name: macOS 26 ARM64
             os: macos-26
+          - name: macOS 15 ARM64
+            os: macos-15
           - name: Linux ARM64
             os: ubuntu-24.04-arm
             container:

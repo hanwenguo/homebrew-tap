@@ -52,7 +52,8 @@ specific formula or cask.
 | `emacs-ns-static-igc` | Cask | Emacs IGC-branch Apple Silicon build |
 
 The formulae build from tagged source inside Homebrew. They support Apple
-Silicon on macOS 26 and ARM64 or x86-64 Linux; Intel macOS is not supported.
+Silicon on macOS 15 and 26 and ARM64 or x86-64 Linux; Intel macOS is not
+supported.
 
 The Emacs casks require Apple Silicon and macOS 15 or newer. Each installs
 `Emacs.app`, `Emacs Client.app`, `emacs`, `emacsclient`, `ebrowse`, and `etags`.
@@ -64,7 +65,7 @@ channels because they install the same app bundles and command-line tools.
 The updater checks upstream GitHub releases every six hours. When a version
 changes, it opens or refreshes `automation/package-updates`, creates a pull
 request with `gh`, and dispatches the test workflow for the exact head commit.
-Formulae are built on Apple Silicon macOS 26 and on ARM64 and x86-64 Linux.
+Formulae are built on Apple Silicon macOS 15 and 26 and on ARM64 and x86-64 Linux.
 After every matrix job succeeds, the workflow invokes Homebrew's
 head-SHA-checked `brew pr-pull` flow to publish bottles to GitHub Releases and
 land the update.

@@ -1,18 +1,9 @@
 class Lantai < Formula
   desc "BibLaTeX-backed headless reference manager"
   homepage "https://github.com/hanwenguo/lantai"
-  url "https://github.com/hanwenguo/lantai/archive/refs/tags/v0.5.0.tar.gz"
-  sha256 "13510c59f9160261c8884416ea3f5bcb9e69b4cdcf4f4095ccd6cc156e98384d"
+  url "https://github.com/hanwenguo/lantai/archive/refs/tags/v0.6.0.tar.gz"
+  sha256 "0af2fcbb3eac24c8a3f549e9651f97656d35fd03a9a60d41781bbd4c0d3a91ad"
   license "AGPL-3.0-only"
-  revision 4
-
-  bottle do
-    root_url "https://github.com/hanwenguo/homebrew-tap/releases/download/lantai-0.5.0_4"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "1986914974135fdafa9ea850915b7939042e913db6b74458db1f9689479c84a6"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "9f4cfc12af52c051e1d843d72e55f66ba4ea8df55e8ac55874772a06379b2654"
-    sha256 cellar: :any,                 arm64_linux:   "cf7a32632af01f135715928bb6abd56c92746ee40ef43fae6eb58c64f2182c10"
-    sha256 cellar: :any,                 x86_64_linux:  "e4e75fae2eb90c866e10e8dd7d43e11abfd44dea528c94f656fb8c45a7ca1ad2"
-  end
 
   depends_on "rust" => :build
 

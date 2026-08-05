@@ -145,7 +145,7 @@ module TapUpdater
 
     update_asset_cask("Casks/font-akvesoi.rb", "hanwenguo/Akvesoi",
                       asset_name_for: ->(version) { "PkgTTC-Akvesoi-#{version}.zip" })
-    update_asset_cask("Casks/browstay.rb", "hanwenguo/Stayfari",
+    update_asset_cask("Casks/browstay.rb", "hanwenguo/Browstay",
                       asset_name_for: ->(version) { "Browstay-#{version}.zip" })
 
     emacs_releases = releases("hanwenguo/emacs-ns-static-build")

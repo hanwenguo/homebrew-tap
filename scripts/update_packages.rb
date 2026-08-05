@@ -96,7 +96,10 @@ module TapUpdater
     replace_stanza!(content, "url", url) if update_url
 
     if formula && previous_url != url
-      content.sub!(/\n  bottle do\n.*?^  end\n/m, "\n")
+      # The match begins at the blank line above the block, so it already
+      # carries the separator `depends_on` needs. Putting one back leaves the
+      # doubled blank line `brew style` rejects as Layout/EmptyLines.
+      content.sub!(/\n  bottle do\n.*?^  end\n/m, "")
       content.sub!(/^  revision\s+\d+\n/, "")
     end
 

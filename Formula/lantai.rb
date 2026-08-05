@@ -6,6 +6,13 @@ class Lantai < Formula
   license "AGPL-3.0-only"
   revision 3
 
+  bottle do
+    root_url "https://github.com/hanwenguo/homebrew-tap/releases/download/lantai-0.5.0_3"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:  "2acabc5e87971c989d330acb88f249d6a52ebcea907d9ef897cb432e765c895e"
+    sha256 cellar: :any,                 arm64_linux:  "57f79d76f17279dae6106e7b53804be2db6b896127470c877a32120c6d2736d8"
+    sha256 cellar: :any,                 x86_64_linux: "591bd57750ff27cccdcb46d487d6a0709f4950693766bf7c7cba5a763ce0ba64"
+  end
+
   depends_on "rust" => :build
 
   on_macos do

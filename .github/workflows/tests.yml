@@ -13,7 +13,7 @@ on:
         description: Expected pull request head commit SHA
 
 concurrency:
-  group: tap-tests-${{ github.event.pull_request.number || inputs.pull_request || github.ref }}
+  group: tap-tests-${{ github.event_name }}-${{ github.event.pull_request.number || inputs.pull_request || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -25,6 +25,11 @@ permissions:
 jobs:
   test-bot:
     name: ${{ matrix.name }}
+    # The updater dispatches this workflow for the exact head commit it just
+    # pushed, so the pull_request event would only duplicate that run.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.head_ref != 'automation/package-updates'
     strategy:
       fail-fast: false
       matrix:
@@ -149,6 +154,7 @@ jobs:
     steps:
       - name: Dispatch head-SHA-verified brew pr-pull
         env:
+          GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_SHA: ${{ inputs.head_sha }}
           PULL_REQUEST: ${{ inputs.pull_request }}

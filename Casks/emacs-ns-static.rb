@@ -1,6 +1,6 @@
 cask "emacs-ns-static" do
-  version "20260807184615,emacs-31-321f6a0"
-  sha256 "ce6726361bbc9f672d9e61d99e9c967d70c013d720a4c3fa1b0c4405ea6f4f4d"
+  version "20260808123202,emacs-31-aec7a5c"
+  sha256 "872dc56e168f16698c3fb7b95a0d72670b8d6b2cca4746fec89fb0113dbd28fe"
 
   url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs.tar.xz",
       verified: "github.com/hanwenguo/emacs-ns-static-build/"

@@ -10,6 +10,13 @@ class Weibian < Formula
     regex(/^v?(\d+(?:\.\d+)+(?:-rc\.\d+)?)$/i)
   end
 
+  bottle do
+    root_url "https://github.com/hanwenguo/homebrew-tap/releases/download/weibian-2.0.0-rc.6"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:  "7e85d6be886a463fc878eebde776500d078cde6b19409db9ce0597cffb851705"
+    sha256 cellar: :any,                 arm64_linux:  "794e18454ab8c52bb9192a4ac2de1d4bf48a30ad6f846cdb215c93193e0f53e8"
+    sha256 cellar: :any,                 x86_64_linux: "6156da4c4c2f1eff2aed6701662fd8f67be917b99fa81f55cbb17fe8b2d4b482"
+  end
+
   depends_on "rust" => :build
 
   on_macos do

@@ -1,17 +1,9 @@
 class Lantai < Formula
   desc "BibLaTeX-backed headless reference manager"
   homepage "https://github.com/hanwenguo/lantai"
-  url "https://github.com/hanwenguo/lantai/archive/refs/tags/v0.6.0.tar.gz"
-  sha256 "0af2fcbb3eac24c8a3f549e9651f97656d35fd03a9a60d41781bbd4c0d3a91ad"
+  url "https://github.com/hanwenguo/lantai/archive/refs/tags/v0.7.0.tar.gz"
+  sha256 "bcac94c68f70a3919dab3ddf022fb63eed62e60bd37561c84474522a49966181"
   license "AGPL-3.0-only"
-
-  bottle do
-    root_url "https://github.com/hanwenguo/homebrew-tap/releases/download/lantai-0.6.0"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "097e17b557758242f390a628ddcb43883ab9d9088eeb346c2d47ba9125197403"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a42a71a916b49109d70e213d621621fd01c02194126122400303a235f185a055"
-    sha256 cellar: :any,                 arm64_linux:   "4612c3568b905d441ea6e22cbb1b057e8001d07c256e526f66f5a14e69bcc437"
-    sha256 cellar: :any,                 x86_64_linux:  "0768d1ca410f31dbde0e21d6e005b7bd7865ec2a7527030b599389b6bd89c89b"
-  end
 
   depends_on "rust" => :build
 
@@ -21,6 +13,7 @@ class Lantai < Formula
 
   def install
     system "cargo", "install", *std_cargo_args
+    generate_completions_from_executable(bin/"lantai", "completions")
   end
 
   def caveats
@@ -42,5 +35,8 @@ class Lantai < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/lantai --version")
+    assert_path_exists bash_completion/"lantai"
+    assert_path_exists zsh_completion/"_lantai"
+    assert_path_exists fish_completion/"lantai.fish"
   end
 end

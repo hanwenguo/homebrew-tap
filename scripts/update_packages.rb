@@ -47,7 +47,12 @@ module TapUpdater
   end
 
   def releases(repository)
-    api_json("/repos/#{repository}/releases?per_page=100").reject { |release| release.fetch("draft") }
+    # The API sorts by created_at, which tracks the tagged commit rather than
+    # publication, so the newest published release is not always first.
+    api_json("/repos/#{repository}/releases?per_page=100")
+      .reject { |release| release.fetch("draft") }
+      .sort_by { |release| release.fetch("published_at") }
+      .reverse
   end
 
   def latest_release(repository, pattern)

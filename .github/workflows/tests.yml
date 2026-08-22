@@ -106,7 +106,7 @@ jobs:
         run: |
           set -euo pipefail
           tap_path="$(brew --repo "$GITHUB_REPOSITORY")"
-          git -C "$tap_path" diff --name-only "origin/$BASE_REF...HEAD" -- 'Casks/*.rb' |
+          git -C "$tap_path" diff --name-only --diff-filter=d "origin/$BASE_REF...HEAD" -- 'Casks/*.rb' |
             while IFS= read -r path; do
               token="${path##*/}"
               token="${token%.rb}"

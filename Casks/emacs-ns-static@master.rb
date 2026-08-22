@@ -1,11 +1,11 @@
-cask "emacs-ns-static" do
-  version "20260821183012,emacs-31-bd5cbf4"
-  sha256 "35c064105bd1d2cb6d19130b3919f705023ce7c301f36b1d66972e7b7b7d6031"
+cask "emacs-ns-static@master" do
+  version "20260821183244,master-11a1cb7"
+  sha256 "e214b2b3847dae8427d166dfce800f89638e86badef7a82b87d38ca89e4dd37b"
 
-  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs.tar.xz",
+  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-master.tar.xz",
       verified: "github.com/hanwenguo/emacs-ns-static-build/"
-  name "Emacs NS Static (Emacs 31)"
-  desc "Daily static Emacs 31 build for Apple Silicon"
+  name "Emacs NS Static (Master)"
+  desc "Daily static Emacs master build for Apple Silicon"
   homepage "https://github.com/hanwenguo/emacs-ns-static-build"
 
   livecheck do
@@ -16,9 +16,9 @@ cask "emacs-ns-static" do
     "emacs-app",
     "emacs-app@nightly",
     "emacs-app@pretest",
+    "emacs-ns-static",
     "emacs-ns-static-native-comp",
     "emacs-ns-static-native-comp@igc",
-    "emacs-ns-static@master",
   ]
   depends_on arch: :arm64
   depends_on macos: :sequoia
@@ -34,7 +34,7 @@ cask "emacs-ns-static" do
     This Emacs build is ad-hoc signed and is not notarized by Apple. Install it
     only after deciding to trust the upstream release:
 
-      brew install --cask hanwenguo/tap/emacs-ns-static
+      brew install --cask hanwenguo/tap/emacs-ns-static@master
 
     If Gatekeeper blocks the first launch, approve Emacs explicitly in System
     Settings > Privacy & Security.

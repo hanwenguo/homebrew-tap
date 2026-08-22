@@ -1,8 +1,6 @@
 cask "emacs-ns-static-native-comp" do
-  # Placeholder pin: the first emacs-native-comp release is still building;
-  # the tap updater replaces the version and checksum once it is published.
-  version "00000000000000,emacs-native-comp-0000000"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  version "20260822124247,emacs-native-comp-a52c130"
+  sha256 "3425f1af05f5dbeaff25c6d9b8b90556804bdf77cd4c4876f24006c909b4bd6e"
 
   url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-native-comp.tar.xz",
       verified: "github.com/hanwenguo/emacs-ns-static-build/"

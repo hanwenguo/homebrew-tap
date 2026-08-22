@@ -47,7 +47,12 @@ module TapUpdater
   end
 
   def releases(repository)
-    api_json("/repos/#{repository}/releases?per_page=100").reject { |release| release.fetch("draft") }
+    # The API sorts by created_at, which tracks the tagged commit rather than
+    # publication, so the newest published release is not always first.
+    api_json("/repos/#{repository}/releases?per_page=100")
+      .reject { |release| release.fetch("draft") }
+      .sort_by { |release| release.fetch("published_at") }
+      .reverse
   end
 
   def latest_release(repository, pattern)
@@ -130,9 +135,14 @@ module TapUpdater
                 update_url: false)
   end
 
-  def update_emacs_cask(relative_path, release_list, tag_pattern, asset_name)
-    release = release_list.find { |candidate| tag_pattern.match?(candidate.fetch("tag_name")) } ||
-              raise("no Emacs release matching #{tag_pattern.inspect}")
+  def update_emacs_cask(relative_path, release_list, tag_pattern, asset_name, allow_missing: false)
+    release = release_list.find { |candidate| tag_pattern.match?(candidate.fetch("tag_name")) }
+    if release.nil?
+      raise "no Emacs release matching #{tag_pattern.inspect}" unless allow_missing
+
+      warn "no Emacs release matching #{tag_pattern.inspect} yet; leaving #{relative_path} unchanged"
+      return
+    end
     asset = release_asset(release, asset_name)
     version = "#{release_timestamp(release)},#{release.fetch("tag_name")}"
     update_file(relative_path,
@@ -153,8 +163,10 @@ module TapUpdater
 
     emacs_releases = releases("hanwenguo/emacs-ns-static-build")
     update_emacs_cask("Casks/emacs-ns-static.rb", emacs_releases, /\Aemacs-31-/, "Emacs.tar.xz")
-    update_emacs_cask("Casks/emacs-ns-static-master.rb", emacs_releases, /\Amaster-/, "Emacs-master.tar.xz")
-    update_emacs_cask("Casks/emacs-ns-static-igc.rb", emacs_releases, /\Aigc-/, "Emacs-igc.tar.xz")
+    update_emacs_cask("Casks/emacs-ns-static@master.rb", emacs_releases, /\Amaster-/, "Emacs-master.tar.xz")
+    update_emacs_cask("Casks/emacs-ns-static-native-comp.rb", emacs_releases, /\Aemacs-native-comp-/,
+                      "Emacs-native-comp.tar.xz", allow_missing: true)
+    update_emacs_cask("Casks/emacs-ns-static-native-comp@igc.rb", emacs_releases, /\Aigc-/, "Emacs-igc.tar.xz")
   end
 end
 

@@ -2,8 +2,7 @@ cask "emacs-ns-static-native-comp@igc" do
   version "20260823011212,igc-07b35c8"
   sha256 "1f3863bd47343a354f8ad8942adcb0e3047a1088b4a5b95ff424e39046cae2c3"
 
-  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-igc.tar.xz",
-      verified: "github.com/hanwenguo/emacs-ns-static-build/"
+  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-igc.tar.xz"
   name "Emacs NS Static (IGC, Native Compilation)"
   desc "Static Emacs IGC-branch build with native compilation for Apple Silicon"
   homepage "https://github.com/hanwenguo/emacs-ns-static-build"

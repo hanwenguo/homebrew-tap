@@ -2,8 +2,7 @@ cask "emacs-ns-static-native-comp" do
   version "20260831185806,emacs-native-comp-e420d0d"
   sha256 "9d7f715d4ff61223dd62a7de9e104248440bd8512c446740e771ab4becaceb64"
 
-  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-native-comp.tar.xz",
-      verified: "github.com/hanwenguo/emacs-ns-static-build/"
+  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-native-comp.tar.xz"
   name "Emacs NS Static (Emacs 31, Native Compilation)"
   desc "Daily static Emacs 31 build with native compilation for Apple Silicon"
   homepage "https://github.com/hanwenguo/emacs-ns-static-build"

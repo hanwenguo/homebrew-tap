@@ -2,8 +2,7 @@ cask "font-akvesoi" do
   version "34.8.1"
   sha256 "b902ed62d719edb218e86b6dbff4fd4105be4cb34627c8c13771175b8fe76ab8"
 
-  url "https://github.com/hanwenguo/Akvesoi/releases/download/v#{version}/PkgTTC-Akvesoi-#{version}.zip",
-      verified: "github.com/hanwenguo/Akvesoi/"
+  url "https://github.com/hanwenguo/Akvesoi/releases/download/v#{version}/PkgTTC-Akvesoi-#{version}.zip"
   name "Akvesoi"
   desc "Duo-space typeface family derived from Iosevka"
   homepage "https://github.com/hanwenguo/Akvesoi"

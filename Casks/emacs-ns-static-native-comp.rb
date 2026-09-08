@@ -1,6 +1,6 @@
 cask "emacs-ns-static-native-comp" do
-  version "20260907212312,emacs-native-comp-debf9d8"
-  sha256 "e332504e0b1b40a02919f28441bc704a656de71ce0d10fc4ebb9d99f382a0d9d"
+  version "20260908160832,emacs-native-comp-d46cc7d"
+  sha256 "dec89f64d85ad63e9249a44fbd61d33bbf9645ff20006bbf5a9a47dce00df4b1"
 
   url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-native-comp.tar.xz"
   name "Emacs NS Static (Emacs 31, Native Compilation)"

@@ -15,8 +15,7 @@ cask "emacs-ns-static" do
     "emacs-app",
     "emacs-app@nightly",
     "emacs-app@pretest",
-    "emacs-ns-static-native-comp",
-    "emacs-ns-static-native-comp@igc",
+    "emacs-ns-static@igc",
     "emacs-ns-static@master",
   ]
   depends_on arch: :arm64

@@ -1,4 +1,6 @@
 {
-  "emacs-ns-static-igc": "hanwenguo/tap/emacs-ns-static-native-comp@igc",
-  "emacs-ns-static-master": "hanwenguo/tap/emacs-ns-static@master"
+  "emacs-ns-static-igc": "hanwenguo/tap/emacs-ns-static@igc",
+  "emacs-ns-static-master": "hanwenguo/tap/emacs-ns-static@master",
+  "emacs-ns-static-native-comp": "hanwenguo/tap/emacs-ns-static",
+  "emacs-ns-static-native-comp@igc": "hanwenguo/tap/emacs-ns-static@igc"
 }

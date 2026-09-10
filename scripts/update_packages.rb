@@ -164,9 +164,7 @@ module TapUpdater
     emacs_releases = releases("hanwenguo/emacs-ns-static-build")
     update_emacs_cask("Casks/emacs-ns-static.rb", emacs_releases, /\Aemacs-31-/, "Emacs.tar.xz")
     update_emacs_cask("Casks/emacs-ns-static@master.rb", emacs_releases, /\Amaster-/, "Emacs-master.tar.xz")
-    update_emacs_cask("Casks/emacs-ns-static-native-comp.rb", emacs_releases, /\Aemacs-native-comp-/,
-                      "Emacs-native-comp.tar.xz", allow_missing: true)
-    update_emacs_cask("Casks/emacs-ns-static-native-comp@igc.rb", emacs_releases, /\Aigc-/, "Emacs-igc.tar.xz")
+    update_emacs_cask("Casks/emacs-ns-static@igc.rb", emacs_releases, /\Aigc-/, "Emacs-igc.tar.xz")
   end
 end
 

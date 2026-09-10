@@ -19,8 +19,7 @@ them only after deciding that you trust the corresponding GitHub release:
 brew install --cask hanwenguo/tap/browstay
 brew install --cask hanwenguo/tap/emacs-ns-static
 brew install --cask hanwenguo/tap/emacs-ns-static@master
-brew install --cask hanwenguo/tap/emacs-ns-static-native-comp
-brew install --cask hanwenguo/tap/emacs-ns-static-native-comp@igc
+brew install --cask hanwenguo/tap/emacs-ns-static@igc
 ```
 
 Homebrew verifies every downloaded archive against the SHA-256 checksum in this
@@ -50,8 +49,7 @@ specific formula or cask.
 | `browstay` | Cask | Universal macOS 14+ browser-routing app |
 | `emacs-ns-static` | Cask | Daily Emacs 31 Apple Silicon build |
 | `emacs-ns-static@master` | Cask | Daily Emacs master Apple Silicon build |
-| `emacs-ns-static-native-comp` | Cask | Daily Emacs 31 build with native compilation |
-| `emacs-ns-static-native-comp@igc` | Cask | Emacs IGC-branch build with native compilation |
+| `emacs-ns-static@igc` | Cask | Emacs IGC-branch build |
 
 The formulae build from tagged source inside Homebrew. They support Apple
 Silicon on macOS 15 and 26 and ARM64 or x86-64 Linux; Intel macOS is not
@@ -59,10 +57,8 @@ supported.
 
 The Emacs casks require Apple Silicon and macOS 15 or newer. Each installs
 `Emacs.app`, `Emacs Client.app`, `emacs`, `emacsclient`, `ebrowse`, and `etags`.
-The four channels conflict with one another and with the official `emacs-app`
-channels because they install the same app bundles and command-line tools. The
-native-compilation channels invoke the Apple toolchain through `xcrun` at
-runtime, so they additionally need Xcode or the Command Line Tools installed.
+The three channels conflict with one another and with the official `emacs-app`
+channels because they install the same app bundles and command-line tools.
 
 ## Automation
 

@@ -1,14 +1,14 @@
-cask "emacs-ns-static-native-comp" do
-  version "20260909204659,emacs-native-comp-eea5900"
-  sha256 "ee20b6725eed4440d479f2011cefb7e0ebb03bc501fbac179bd78bbefb199fa7"
+cask "emacs-ns-static@igc" do
+  version "20260823011212,igc-07b35c8"
+  sha256 "1f3863bd47343a354f8ad8942adcb0e3047a1088b4a5b95ff424e39046cae2c3"
 
-  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-native-comp.tar.xz"
-  name "Emacs NS Static (Emacs 31, Native Compilation)"
-  desc "Daily static Emacs 31 build with native compilation for Apple Silicon"
+  url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-igc.tar.xz"
+  name "Emacs NS Static (IGC)"
+  desc "Static Emacs IGC-branch build for Apple Silicon"
   homepage "https://github.com/hanwenguo/emacs-ns-static-build"
 
   livecheck do
-    skip "Daily channel tags are tracked by the tap updater"
+    skip "Channel tags are tracked by the tap updater"
   end
 
   conflicts_with cask: [
@@ -16,7 +16,6 @@ cask "emacs-ns-static-native-comp" do
     "emacs-app@nightly",
     "emacs-app@pretest",
     "emacs-ns-static",
-    "emacs-ns-static-native-comp@igc",
     "emacs-ns-static@master",
   ]
   depends_on arch: :arm64
@@ -33,12 +32,9 @@ cask "emacs-ns-static-native-comp" do
     This Emacs build is ad-hoc signed and is not notarized by Apple. Install it
     only after deciding to trust the upstream release:
 
-      brew install --cask hanwenguo/tap/emacs-ns-static-native-comp
+      brew install --cask hanwenguo/tap/emacs-ns-static@igc
 
     If Gatekeeper blocks the first launch, approve Emacs explicitly in System
     Settings > Privacy & Security.
-
-    Native compilation invokes the Apple toolchain through xcrun, so Xcode or
-    the Command Line Tools must be installed for it to work.
   EOS
 end

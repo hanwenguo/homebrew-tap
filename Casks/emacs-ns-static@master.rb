@@ -1,6 +1,6 @@
 cask "emacs-ns-static@master" do
-  version "20260919195827,master-14aaa60"
-  sha256 "eff745aa0bf1b9e9162114079fe936f04dcf1d61b54f2285d766764d7b14e229"
+  version "20260920151522,master-50789ff"
+  sha256 "b6f9e6584c6ead19ccd848dc37d3d8a206809798ee2ad629811c5e33419a5cdc"
 
   url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-master.tar.xz"
   name "Emacs NS Static (Master)"

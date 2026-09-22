@@ -24,7 +24,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@c8707045ccae42888fe98e86f2ee8938bc7cc193
+        uses: Homebrew/actions/setup-homebrew@848c272c7bfe984a197bd4d16383f4c106ec61e6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # Publishing should not depend on unreleased Homebrew changes. The
@@ -32,7 +32,7 @@ jobs:
           stable: true
 
       - name: Set up git
-        uses: Homebrew/actions/git-user-config@c8707045ccae42888fe98e86f2ee8938bc7cc193
+        uses: Homebrew/actions/git-user-config@848c272c7bfe984a197bd4d16383f4c106ec61e6
 
       - name: Pull bottles
         env:
@@ -48,6 +48,6 @@ jobs:
           fi
 
       - name: Push commits
-        uses: Homebrew/actions/git-try-push@c8707045ccae42888fe98e86f2ee8938bc7cc193
+        uses: Homebrew/actions/git-try-push@848c272c7bfe984a197bd4d16383f4c106ec61e6
         with:
           branch: main

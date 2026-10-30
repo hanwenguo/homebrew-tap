@@ -1,6 +1,6 @@
 cask "emacs-ns-static@igc" do
-  version "20261029175745,igc-4c61431"
-  sha256 "f002be9b054c8c702390fc0cd8b07c237497301db6dd7832fe5819d2653232e3"
+  version "20261030220222,igc-c0a3db5"
+  sha256 "b71fb76670532aab026379ec0cf04c1568aa6c9d1e53403c02e0eb8ba97a68c3"
 
   url "https://github.com/hanwenguo/emacs-ns-static-build/releases/download/#{version.csv.second}/Emacs-igc.tar.xz"
   name "Emacs NS Static (IGC)"

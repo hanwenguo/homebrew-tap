@@ -1,6 +1,6 @@
 cask "browstay" do
-  version "0.2.0"
-  sha256 "57d4286b9a7d82ef07b2aba5415d2fa3cdcd81f0817efbad1c818fe48b427055"
+  version "0.3.0"
+  sha256 "a793afb83dda9cec95947dea7d1bceef830b37037c08312f384d0167b689427f"
 
   url "https://github.com/hanwenguo/Browstay/releases/download/v#{version}/Browstay-#{version}.zip"
   name "Browstay"

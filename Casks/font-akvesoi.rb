@@ -1,6 +1,6 @@
 cask "font-akvesoi" do
-  version "34.9.1"
-  sha256 "2708d23a083014b315e9265f596c5c1e2c3edaf7aa3eb7d2f5d4b2cf3fcb8a17"
+  version "34.9.2"
+  sha256 "b694d0cb7cb560eaaeb7bb3a8399b91398d988c13c301ce216fd254429c4ed54"
 
   url "https://github.com/hanwenguo/Akvesoi/releases/download/v#{version}/PkgTTC-Akvesoi-#{version}.zip"
   name "Akvesoi"
